@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_grid_view/src/foundation/extensions.dart';
-import 'package:flutter_staggered_grid_view/src/rendering/sliver_simple_grid_delegate.dart';
+import 'package:flutter_staggered_grid_view_plus/src/foundation/extensions.dart';
+import 'package:flutter_staggered_grid_view_plus/src/rendering/sliver_simple_grid_delegate.dart';
 
 /// Parent data structure used by [RenderSliverMasonryGrid].
 class SliverMasonryGridParentData extends SliverMultiBoxAdaptorParentData {

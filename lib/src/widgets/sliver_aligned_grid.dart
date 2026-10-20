@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/src/rendering/sliver_simple_grid_delegate.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/uniform_track.dart';
+import 'package:flutter_staggered_grid_view_plus/src/rendering/sliver_simple_grid_delegate.dart';
+import 'package:flutter_staggered_grid_view_plus/src/widgets/uniform_track.dart';
 
 /// A sliver that places multiple box children in a two dimensional arrangement.
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/src/layouts/staired.dart';
+import 'package:flutter_staggered_grid_view_plus/src/layouts/staired.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common.dart';

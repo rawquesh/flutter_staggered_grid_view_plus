@@ -1,7 +1,19 @@
-[![Pub][pub_badge]][pub] [![BuyMeACoffee][buy_me_a_coffee_badge]][buy_me_a_coffee]
+# flutter_staggered_grid_view_plus
 
+> **Migration & Maintenance Notice:**  
+> This package is a maintained successor and drop-in migration of [flutter_staggered_grid_view](https://pub.dev/packages/flutter_staggered_grid_view) (GitHub: [letsar/flutter_staggered_grid_view](https://github.com/letsar/flutter_staggered_grid_view)).  
+> The original package has not received a release since July 2023 (v0.7.0).  
+> `flutter_staggered_grid_view_plus` aims to be 100% API-compatible for modern Flutter releases.
+>
+> **Migration Steps:**
+> 1. In `pubspec.yaml`, replace `flutter_staggered_grid_view` with `flutter_staggered_grid_view_plus`.
+> 2. Change your import line from:  
+>    `import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';`  
+>    to:  
+>    `import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view_plus.dart';`
+>
+> Full credit and attribution to the original author, Romain Rastel ([@letsar](https://github.com/letsar)). The original MIT License is preserved.
 
-# flutter_staggered_grid_view
 Provides a collection of Flutter grids layouts.
 
 ## Getting started
@@ -11,13 +23,13 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_staggered_grid_view: <latest_version>
+  flutter_staggered_grid_view_plus: <latest_version>
 ```
 
 In your library add the following import:
 
 ```dart
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view_plus.dart';
 ```
 
 For help getting started with Flutter, view the online [documentation][flutter_documentation].

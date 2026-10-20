@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/uniform_track.dart';
+import 'package:flutter_staggered_grid_view_plus/src/widgets/uniform_track.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common.dart';

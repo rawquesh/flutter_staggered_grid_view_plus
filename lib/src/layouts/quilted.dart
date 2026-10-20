@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_grid_view/src/foundation/extensions.dart';
+import 'package:flutter_staggered_grid_view_plus/src/foundation/extensions.dart';
 
 /// A tile for [SliverQuiltedGridDelegate].
 @immutable

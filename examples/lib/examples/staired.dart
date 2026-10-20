@@ -1,6 +1,6 @@
 import 'package:examples/common.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class StairedPage extends StatelessWidget {
   const StairedPage({

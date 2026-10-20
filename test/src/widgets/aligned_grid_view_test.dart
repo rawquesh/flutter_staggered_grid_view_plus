@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/aligned_grid_view.dart';
+import 'package:flutter_staggered_grid_view_plus/src/widgets/aligned_grid_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common.dart';

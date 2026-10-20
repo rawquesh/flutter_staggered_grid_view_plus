@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/src/layouts/woven.dart';
+import 'package:flutter_staggered_grid_view_plus/src/layouts/woven.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common.dart';

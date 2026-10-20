@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/src/rendering/staggered_grid.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/staggered_grid.dart';
+import 'package:flutter_staggered_grid_view_plus/src/rendering/staggered_grid.dart';
+import 'package:flutter_staggered_grid_view_plus/src/widgets/staggered_grid.dart';
 
 /// Represents the size of a [StaggeredGrid]'s tile.
 class StaggeredGridTile extends ParentDataWidget<StaggeredGridParentData> {

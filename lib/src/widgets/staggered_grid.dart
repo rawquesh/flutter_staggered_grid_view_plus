@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/src/rendering/staggered_grid.dart';
-import 'package:flutter_staggered_grid_view/src/widgets/staggered_grid_tile.dart';
+import 'package:flutter_staggered_grid_view_plus/src/rendering/staggered_grid.dart';
+import 'package:flutter_staggered_grid_view_plus/src/widgets/staggered_grid_tile.dart';
 
 /// A grid which lays out children in a staggered arrangement.
 /// Each child can have a different size.

@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/src/foundation/constants.dart';
-import 'package:flutter_staggered_grid_view/src/layouts/sliver_patterned_grid_delegate.dart';
+import 'package:flutter_staggered_grid_view_plus/src/foundation/constants.dart';
+import 'package:flutter_staggered_grid_view_plus/src/layouts/sliver_patterned_grid_delegate.dart';
 
 /// A tile of a woven pattern.
 @immutable
