@@ -443,6 +443,24 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
           leadingChildWithLayout = earliestUsefulChild;
           trailingChildWithLayout ??= earliestUsefulChild;
           break;
+        } else if (indexOf(firstChild!) == 0) {
+          // We ran out of children before reaching the scroll offset, and
+          // the current firstChild is the very first item of the sliver.
+          // The backward search above could not satisfy the scroll offset
+          // because a column had no retained child to seed its offset
+          // from (for example after a jump towards the end garbage
+          // collected this sliver down to its last child): walking back
+          // can never seed that column, so the search was guaranteed to
+          // exhaust every child. Returning a scroll offset correction of
+          // -scrollOffset here would reset the whole viewport offset,
+          // which breaks lists with several masonry slivers (upstream
+          // issue #338: the viewport landed back at offset 0). Instead,
+          // fall through to the forward layout below: it starts from the
+          // first item, whose layout offset was just reset to 0, and
+          // rebuilds the exact column offsets while advancing, reporting
+          // this sliver's true extent without any correction.
+          earliestUsefulChild = firstChild;
+          break;
         } else {
           // We ran out of children before reaching the scroll offset.
           // We must inform our parent that this sliver cannot fulfill

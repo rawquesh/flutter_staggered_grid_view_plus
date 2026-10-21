@@ -1,3 +1,20 @@
+## 1.0.1
+### Fixed
+* Upstream issue #338 (and its duplicates #335, #299, #286, #265): the
+  multi-`SliverMasonryGrid` scrolling fix in 1.0.0 was incomplete for
+  larger sections. With two 60-item sections, `jumpTo(maxScrollExtent)`
+  still landed back at offset 0 and repeated drags could jump back by
+  thousands of pixels. Root cause: after such a jump, a masonry sliver
+  can be retained as only its last child, leaving a column with no
+  retained child to seed its offset from; the backward search for a
+  leading child could then never seed that column, exhausted all
+  children, and returned a scroll offset correction that reset the
+  whole viewport. The search now falls through to a forward layout from
+  the first item in that state, which rebuilds the exact column offsets
+  and reports the sliver's true extent. Covered by regression tests
+  using the exact reported scenario (two 60-item sections, `jumpTo`
+  and 45 drags).
+
 ## 1.0.0
 First release of `flutter_staggered_grid_view_plus`, a maintained fork of
 `flutter_staggered_grid_view` 0.7.0. The public API is unchanged: migration

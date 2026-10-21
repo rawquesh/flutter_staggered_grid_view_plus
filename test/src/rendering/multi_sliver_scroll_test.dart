@@ -138,4 +138,86 @@ void main() {
       expect(find.byKey(const ValueKey('B17')), findsOneWidget);
     },
   );
+
+  // The exact scenario reported against 1.0.0 on upstream issue #338:
+  // two SliverMasonryGrid.count sections of 60 items each. The first
+  // version of the #338 fix only covered smaller sections; with 60 items
+  // per section, jumpTo(maxScrollExtent) landed back at offset 0 and
+  // repeated drags jumped back by thousands of pixels. Root cause of the
+  // remaining failure: after the jump, the first section is retained as
+  // only its last child, so one column has no retained child to seed its
+  // offset from; the backward search for a leading child could then never
+  // seed that column, walked back to the first item, and returned a
+  // scrollOffsetCorrection of -scrollOffset for the whole viewport.
+  group('reporter scenario on #338 (60 items per section)', () {
+    double reporterHeight(int i) => 60.0 + (i * 37) % 90;
+
+    Widget reporterGrid(int seed) => SliverMasonryGrid.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      childCount: 60,
+      itemBuilder: (context, i) =>
+          SizedBox(height: reporterHeight(i + seed), child: Text('$seed-$i')),
+    );
+
+    testWidgets('jumpTo(maxScrollExtent) reaches the end', (tester) async {
+      final controller = ScrollController();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomScrollView(
+              controller: controller,
+              slivers: [reporterGrid(0), reporterGrid(500)],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(controller.offset, greaterThan(0));
+      expect(
+        controller.offset,
+        closeTo(controller.position.maxScrollExtent, 0.5),
+        reason: 'viewport did not settle at the end of the list',
+      );
+      expect(find.text('500-59'), findsOneWidget);
+    });
+
+    testWidgets('repeated drags never jump back', (tester) async {
+      final controller = ScrollController();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: CustomScrollView(
+              controller: controller,
+              slivers: [reporterGrid(0), reporterGrid(500)],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      var previous = controller.offset;
+      var worstJumpBack = 0.0;
+      for (var i = 0; i < 45; i++) {
+        await tester.drag(find.byType(CustomScrollView), const Offset(0, -400));
+        await tester.pumpAndSettle();
+        final jumpBack = previous - controller.offset;
+        if (jumpBack > worstJumpBack) worstJumpBack = jumpBack;
+        previous = controller.offset;
+      }
+
+      expect(tester.takeException(), isNull);
+      expect(worstJumpBack, lessThanOrEqualTo(0.5));
+      expect(
+        controller.offset,
+        closeTo(controller.position.maxScrollExtent, 0.5),
+      );
+    });
+  });
 }
