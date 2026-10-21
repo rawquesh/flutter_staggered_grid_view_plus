@@ -15,13 +15,13 @@ class RenderUniformTrack extends RenderBox
     double spacing = 0,
     required int division,
     required AxisDirection direction,
-  })  : assert(spacing >= 0),
-        assert(division > 0),
-        _spacing = spacing,
-        _direction = direction,
-        _isHorizontal = axisDirectionToAxis(direction) == Axis.horizontal,
-        _isDirectionReversed = axisDirectionIsReversed(direction),
-        _division = division {
+  }) : assert(spacing >= 0),
+       assert(division > 0),
+       _spacing = spacing,
+       _direction = direction,
+       _isHorizontal = axisDirectionToAxis(direction) == Axis.horizontal,
+       _isDirectionReversed = axisDirectionIsReversed(direction),
+       _division = division {
     addAll(children);
   }
 
@@ -83,10 +83,15 @@ class RenderUniformTrack extends RenderBox
   }
 
   Size _computeSize(BoxConstraints constraints, ChildLayouter layoutChild) {
-    final mainAxisExtent =
-        _isHorizontal ? constraints.maxWidth : constraints.maxHeight;
-    final childMainAxisExtent =
-        ((mainAxisExtent + spacing) / division) - spacing;
+    final mainAxisExtent = _isHorizontal
+        ? constraints.maxWidth
+        : constraints.maxHeight;
+    // The child extent must never be negative, even when the main axis
+    // extent is smaller than the spacing (see upstream issue #362).
+    final childMainAxisExtent = math.max(
+      0.0,
+      ((mainAxisExtent + spacing) / division) - spacing,
+    );
     final childConstraints = _isHorizontal
         ? BoxConstraints.tightFor(width: childMainAxisExtent)
         : BoxConstraints.tightFor(height: childMainAxisExtent);
@@ -118,10 +123,15 @@ class RenderUniformTrack extends RenderBox
   @override
   void performLayout() {
     size = _computeSize(constraints, ChildLayoutHelper.layoutChild);
-    final mainAxisExtent =
-        _isHorizontal ? constraints.maxWidth : constraints.maxHeight;
-    final childMainAxisExtent =
-        ((mainAxisExtent + spacing) / division) - spacing;
+    final mainAxisExtent = _isHorizontal
+        ? constraints.maxWidth
+        : constraints.maxHeight;
+    // The child extent must never be negative, even when the main axis
+    // extent is smaller than the spacing (see upstream issue #362).
+    final childMainAxisExtent = math.max(
+      0.0,
+      ((mainAxisExtent + spacing) / division) - spacing,
+    );
     final maxChildCrossAxisExtent = _isHorizontal ? size.height : size.width;
 
     double getChildCrossAxisExtent(RenderBox child) {
@@ -145,8 +155,9 @@ class RenderUniformTrack extends RenderBox
     int index = 0;
 
     double getMainAxisPosition(int index) {
-      final effectiveIndex =
-          _isDirectionReversed ? division - index - 1 : index;
+      final effectiveIndex = _isDirectionReversed
+          ? division - index - 1
+          : index;
       return effectiveIndex * stride;
     }
 

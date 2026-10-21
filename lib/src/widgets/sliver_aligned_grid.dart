@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/src/rendering/sliver_simple_grid_delegate.dart';
 import 'package:flutter_staggered_grid_view_plus/src/widgets/uniform_track.dart';
@@ -35,17 +37,17 @@ class SliverAlignedGrid extends StatelessWidget {
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
   }) : this(
-          key: key,
-          itemBuilder: itemBuilder,
-          itemCount: itemCount,
-          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-        );
+         key: key,
+         itemBuilder: itemBuilder,
+         itemCount: itemCount,
+         gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount: crossAxisCount,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+       );
 
   /// Creates a sliver that places multiple box children in an aligned
   /// arrangement with tiles that each have a maximum cross-axis extent.
@@ -62,17 +64,17 @@ class SliverAlignedGrid extends StatelessWidget {
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
   }) : this(
-          key: key,
-          itemBuilder: itemBuilder,
-          itemCount: itemCount,
-          gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: maxCrossAxisExtent,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          addAutomaticKeepAlives: addAutomaticKeepAlives,
-          addRepaintBoundaries: addRepaintBoundaries,
-        );
+         key: key,
+         itemBuilder: itemBuilder,
+         itemCount: itemCount,
+         gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+           maxCrossAxisExtent: maxCrossAxisExtent,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         addAutomaticKeepAlives: addAutomaticKeepAlives,
+         addRepaintBoundaries: addRepaintBoundaries,
+       );
 
   /// {@macro fsgv.global.mainAxisSpacing}
   final double mainAxisSpacing;
@@ -131,39 +133,36 @@ class SliverAlignedGrid extends StatelessWidget {
     final localItemCount = itemCount;
     return SliverLayoutBuilder(
       builder: (context, constraints) {
-        final crossAxisCount = gridDelegate.getCrossAxisCount(
-          constraints,
-          crossAxisSpacing,
+        final crossAxisCount = math.max(
+          1,
+          gridDelegate.getCrossAxisCount(constraints, crossAxisSpacing),
         );
         final listItemCount = localItemCount == null
             ? null
             : ((localItemCount + crossAxisCount - 1) ~/ crossAxisCount) * 2 - 1;
         return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index.isOdd) {
-                return _Gap(mainAxisExtent: mainAxisSpacing);
-              }
+          delegate: SliverChildBuilderDelegate((context, index) {
+            if (index.isOdd) {
+              return _Gap(mainAxisExtent: mainAxisSpacing);
+            }
 
-              final startIndex = (index ~/ 2) * crossAxisCount;
-              final children = [
-                for (int i = 0; i < crossAxisCount; i++)
-                  _buildItem(context, startIndex + i, itemCount),
-              ].whereType<Widget>();
+            final startIndex = (index ~/ 2) * crossAxisCount;
+            final children = [
+              for (int i = 0; i < crossAxisCount; i++)
+                _buildItem(context, startIndex + i, itemCount),
+            ].whereType<Widget>();
 
-              if (children.isEmpty) {
-                return null;
-              }
+            if (children.isEmpty) {
+              return null;
+            }
 
-              return UniformTrack(
-                direction: constraints.crossAxisDirection,
-                division: crossAxisCount,
-                spacing: crossAxisSpacing,
-                children: [...children],
-              );
-            },
-            childCount: listItemCount,
-          ),
+            return UniformTrack(
+              direction: constraints.crossAxisDirection,
+              division: crossAxisCount,
+              spacing: crossAxisSpacing,
+              children: [...children],
+            );
+          }, childCount: listItemCount),
         );
       },
     );
@@ -179,10 +178,7 @@ class SliverAlignedGrid extends StatelessWidget {
 }
 
 class _Gap extends StatelessWidget {
-  const _Gap({
-    Key? key,
-    required this.mainAxisExtent,
-  }) : super(key: key);
+  const _Gap({Key? key, required this.mainAxisExtent}) : super(key: key);
 
   final double mainAxisExtent;
 

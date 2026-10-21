@@ -108,13 +108,16 @@ class StaggeredGridDelegateWithMaxCrossAxisExtent
 
   @override
   int getCrossAxisCount(double crossAxisExtent, double crossAxisSpacing) {
-    return (crossAxisExtent / (maxCrossAxisExtent + crossAxisSpacing)).ceil();
+    // A zero cross axis extent must still produce one (empty) column rather
+    // than zero columns, which would lead to a division by zero downstream.
+    return math.max(
+      1,
+      (crossAxisExtent / (maxCrossAxisExtent + crossAxisSpacing)).ceil(),
+    );
   }
 
   @override
-  bool shouldRelayout(
-    StaggeredGridDelegateWithMaxCrossAxisExtent oldDelegate,
-  ) {
+  bool shouldRelayout(StaggeredGridDelegateWithMaxCrossAxisExtent oldDelegate) {
     return oldDelegate.maxCrossAxisExtent != maxCrossAxisExtent;
   }
 }
@@ -128,18 +131,15 @@ class RenderStaggeredGrid extends RenderBox
   /// Creates a [RenderStaggeredGrid].
   RenderStaggeredGrid({
     List<RenderBox>? children,
-    required StaggeredGridDelegate delegate,
+    required this._delegate,
     required double mainAxisSpacing,
     required double crossAxisSpacing,
-    required AxisDirection axisDirection,
-    required TextDirection textDirection,
-  })  : assert(mainAxisSpacing >= 0),
-        assert(crossAxisSpacing >= 0),
-        _axisDirection = axisDirection,
-        _textDirection = textDirection,
-        _delegate = delegate,
-        _mainAxisSpacing = mainAxisSpacing,
-        _crossAxisSpacing = crossAxisSpacing {
+    required this._axisDirection,
+    required this._textDirection,
+  }) : assert(mainAxisSpacing >= 0),
+       assert(crossAxisSpacing >= 0),
+       _mainAxisSpacing = mainAxisSpacing,
+       _crossAxisSpacing = crossAxisSpacing {
     addAll(children);
   }
 
@@ -264,18 +264,17 @@ class RenderStaggeredGrid extends RenderBox
     final crossAxisExtent = mainAxis == Axis.vertical
         ? constraints.maxWidth
         : constraints.maxHeight;
-    final crossAxisCount =
-        delegate.getCrossAxisCount(crossAxisExtent, crossAxisSpacing);
+    final crossAxisCount = math.max(
+      1,
+      delegate.getCrossAxisCount(crossAxisExtent, crossAxisSpacing),
+    );
     final stride = (crossAxisExtent + crossAxisSpacing) / crossAxisCount;
 
     int computeCrossAxisCellCount(
       StaggeredGridParentData childParentData,
       int crossAxisCount,
     ) {
-      return math.min(
-        childParentData.crossAxisCellCount ?? 1,
-        crossAxisCount,
-      );
+      return math.min(childParentData.crossAxisCellCount ?? 1, crossAxisCount);
     }
 
     final offsets = List.filled(crossAxisCount, 0.0);
@@ -286,8 +285,15 @@ class RenderStaggeredGrid extends RenderBox
         childParentData,
         crossAxisCount,
       );
-      final crossAxisExtent = stride * crossAxisCellCount - crossAxisSpacing;
-      final shouldFitContent = childParentData.mainAxisExtent == null &&
+      // The extent can become negative when the available cross axis extent
+      // is smaller than the total spacing (see upstream issue #362). Clamp
+      // it: constraints must never be negative.
+      final crossAxisExtent = math.max(
+        0.0,
+        stride * crossAxisCellCount - crossAxisSpacing,
+      );
+      final shouldFitContent =
+          childParentData.mainAxisExtent == null &&
           childParentData.mainAxisCellCount == null;
       double mainAxisExtent = 0;
       if (shouldFitContent) {
@@ -296,13 +302,16 @@ class RenderStaggeredGrid extends RenderBox
             : BoxConstraints.tightFor(height: crossAxisExtent);
         layoutChild(child, childConstraints, parentUsesSize: true);
         final childSize = child.size;
-        mainAxisExtent =
-            mainAxis == Axis.vertical ? childSize.height : childSize.width;
+        mainAxisExtent = mainAxis == Axis.vertical
+            ? childSize.height
+            : childSize.width;
       } else {
         final mainAxisCellCount = childParentData.mainAxisCellCount ?? 1;
         final mainAxisFixedExtent = childParentData.mainAxisExtent;
-        mainAxisExtent =
-            mainAxisFixedExtent ?? stride * mainAxisCellCount - mainAxisSpacing;
+        mainAxisExtent = math.max(
+          0.0,
+          mainAxisFixedExtent ?? stride * mainAxisCellCount - mainAxisSpacing,
+        );
 
         // We set the real mainAxisExtent in case we need it if the axis direction
         // is reversed.
@@ -333,7 +342,10 @@ class RenderStaggeredGrid extends RenderBox
       child = childAfter(child);
     }
 
-    final mainAxisExtent = offsets.reduce(math.max) - mainAxisSpacing;
+    final mainAxisExtent = math.max(
+      0.0,
+      offsets.reduce(math.max) - mainAxisSpacing,
+    );
     if (axisDirectionIsReversed(axisDirection)) {
       // If the axis direction is reversed, we need to reverse the main axis
       // offsets.
@@ -342,7 +354,8 @@ class RenderStaggeredGrid extends RenderBox
         final childParentData = _getParentData(child);
         final offset = childParentData.offset;
         final crossAxisOffset = offset.getCrossAxisOffset(mainAxis);
-        final mainAxisOffset = mainAxisExtent -
+        final mainAxisOffset =
+            mainAxisExtent -
             offset.getMainAxisOffset(mainAxis) -
             childParentData._realMainAxisExtent!;
         final newOffset = mainAxis == Axis.vertical
@@ -363,8 +376,10 @@ class RenderStaggeredGrid extends RenderBox
           childParentData,
           crossAxisCount,
         );
-        final crossAxisCellExtent =
-            stride * crossAxisCellCount - crossAxisSpacing;
+        final crossAxisCellExtent = math.max(
+          0.0,
+          stride * crossAxisCellCount - crossAxisSpacing,
+        );
         final offset = childParentData.offset;
         final crossAxisOffset =
             crossAxisExtent - offset.dx - crossAxisCellExtent;
@@ -429,11 +444,13 @@ _TileOrigin _findBestCandidate(List<double> offsets, int crossAxisCount) {
 
     int start = 0;
     int span = 0;
-    for (int j = 0;
-        span < crossAxisCount &&
-            j < length &&
-            length - j >= crossAxisCount - span;
-        j++) {
+    for (
+      int j = 0;
+      span < crossAxisCount &&
+          j < length &&
+          length - j >= crossAxisCount - span;
+      j++
+    ) {
       if (_lessOrNearEqual(offsets[j], offset)) {
         span++;
         if (span == crossAxisCount) {

@@ -7,10 +7,8 @@ import 'package:flutter/rendering.dart';
 @immutable
 class SliverPatternGridGeometries {
   /// Creates a [SliverPatternGridGeometries].
-  const SliverPatternGridGeometries({
-    required this.tiles,
-    required this.bounds,
-  }) : assert(tiles.length == bounds.length);
+  const SliverPatternGridGeometries({required this.tiles, required this.bounds})
+    : assert(tiles.length == bounds.length);
 
   /// The visible geometries of each tile.
   final List<SliverGridGeometry> tiles;
@@ -27,12 +25,12 @@ abstract class SliverPatternGridDelegate<T> extends SliverGridDelegate {
     this.crossAxisSpacing = 0,
     this.crossAxisCount,
     this.maxCrossAxisExtent,
-  })  : assert(mainAxisSpacing >= 0),
-        assert(crossAxisSpacing >= 0),
-        assert(crossAxisCount == null || crossAxisCount > 0),
-        assert(maxCrossAxisExtent == null || maxCrossAxisExtent > 0),
-        assert(crossAxisCount != null || maxCrossAxisExtent != null),
-        tileCount = pattern.length;
+  }) : assert(mainAxisSpacing >= 0),
+       assert(crossAxisSpacing >= 0),
+       assert(crossAxisCount == null || crossAxisCount > 0),
+       assert(maxCrossAxisExtent == null || maxCrossAxisExtent > 0),
+       assert(crossAxisCount != null || maxCrossAxisExtent != null),
+       tileCount = pattern.length;
 
   /// Creates a [SliverPatternGridDelegate] with a [crossAxisCount].
   const SliverPatternGridDelegate.count({
@@ -41,11 +39,11 @@ abstract class SliverPatternGridDelegate<T> extends SliverGridDelegate {
     double mainAxisSpacing = 0,
     double crossAxisSpacing = 0,
   }) : this._(
-          pattern: pattern,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          crossAxisCount: crossAxisCount,
-        );
+         pattern: pattern,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         crossAxisCount: crossAxisCount,
+       );
 
   /// Creates a [SliverPatternGridDelegate] with a [maxCrossAxisExtent].
   const SliverPatternGridDelegate.extent({
@@ -54,11 +52,11 @@ abstract class SliverPatternGridDelegate<T> extends SliverGridDelegate {
     double mainAxisSpacing = 0,
     double crossAxisSpacing = 0,
   }) : this._(
-          pattern: pattern,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          maxCrossAxisExtent: maxCrossAxisExtent,
-        );
+         pattern: pattern,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         maxCrossAxisExtent: maxCrossAxisExtent,
+       );
 
   /// {@macro fsgv.global.mainAxisSpacing}
   final double mainAxisSpacing;
@@ -87,9 +85,14 @@ abstract class SliverPatternGridDelegate<T> extends SliverGridDelegate {
 
   @override
   _SliverPatternGridLayout getLayout(SliverConstraints constraints) {
-    final crossAxisCount = this.crossAxisCount ??
-        (constraints.crossAxisExtent / (maxCrossAxisExtent! + crossAxisSpacing))
-            .ceil();
+    final crossAxisCount =
+        this.crossAxisCount ??
+        math.max(
+          1,
+          (constraints.crossAxisExtent /
+                  (maxCrossAxisExtent! + crossAxisSpacing))
+              .ceil(),
+        );
     final geometries = getGeometries(constraints, crossAxisCount);
     return _SliverPatternGridLayout(
       mainAxisSpacing: mainAxisSpacing,
@@ -115,9 +118,9 @@ class _SliverPatternGridLayout extends SliverGridLayout {
     required this.bounds,
     required this.crossAxisExtent,
     this.reverseCrossAxis = false,
-  })  : tileCount = tiles.length,
-        patternMainAxisExtent =
-            bounds.last.trailingScrollOffset + mainAxisSpacing;
+  }) : tileCount = tiles.length,
+       patternMainAxisExtent =
+           bounds.last.trailingScrollOffset + mainAxisSpacing;
 
   final double mainAxisSpacing;
   final double crossAxisExtent;
@@ -137,7 +140,10 @@ class _SliverPatternGridLayout extends SliverGridLayout {
         (childCount ~/ tileCount) * patternMainAxisExtent;
 
     if (childCount % tileCount == 0) {
-      return lastFilledPatternTrailingScrollOffset - mainAxisSpacing;
+      return math.max(
+        0.0,
+        lastFilledPatternTrailingScrollOffset - mainAxisSpacing,
+      );
     }
 
     // We have to get the max scroll offset for the track where the tile with
@@ -148,7 +154,10 @@ class _SliverPatternGridLayout extends SliverGridLayout {
         .take(maxIndex + 1)
         .map((x) => x.trailingScrollOffset)
         .reduce(math.max);
-    return lastFilledPatternTrailingScrollOffset + maxRemainingScrollOffset;
+    return math.max(
+      0.0,
+      lastFilledPatternTrailingScrollOffset + maxRemainingScrollOffset,
+    );
   }
 
   @override
@@ -160,7 +169,8 @@ class _SliverPatternGridLayout extends SliverGridLayout {
     if (reverseCrossAxis) {
       return SliverGridGeometry(
         scrollOffset: realRect.scrollOffset,
-        crossAxisOffset: crossAxisExtent -
+        crossAxisOffset:
+            crossAxisExtent -
             realRect.crossAxisOffset -
             realRect.crossAxisExtent,
         mainAxisExtent: realRect.mainAxisExtent,
@@ -173,6 +183,12 @@ class _SliverPatternGridLayout extends SliverGridLayout {
 
   @override
   int getMinChildIndexForScrollOffset(double scrollOffset) {
+    // A degenerate pattern (for example when the cross axis extent is zero)
+    // has no usable main axis extent; dividing by it would throw
+    // "Infinity or NaN toInt" (see upstream issue #361).
+    if (!(patternMainAxisExtent > 0) || !patternMainAxisExtent.isFinite) {
+      return 0;
+    }
     final patternCount = (scrollOffset ~/ patternMainAxisExtent);
     final mainAxisOffset = scrollOffset - patternCount * patternMainAxisExtent;
     for (int i = 0; i < tileCount; i++) {
@@ -186,6 +202,9 @@ class _SliverPatternGridLayout extends SliverGridLayout {
 
   @override
   int getMaxChildIndexForScrollOffset(double scrollOffset) {
+    if (!(patternMainAxisExtent > 0) || !patternMainAxisExtent.isFinite) {
+      return 0;
+    }
     final patternCount = (scrollOffset ~/ patternMainAxisExtent);
 
     final mainAxisOffset = scrollOffset - patternCount * patternMainAxisExtent;

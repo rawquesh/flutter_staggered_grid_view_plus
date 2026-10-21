@@ -13,8 +13,8 @@ class WovenGridTile {
     this.aspectRatio, {
     this.crossAxisRatio = 1,
     this.alignment = AlignmentDirectional.center,
-  })  : assert(aspectRatio > 0),
-        assert(crossAxisRatio > 0 && crossAxisRatio <= 1);
+  }) : assert(aspectRatio > 0),
+       assert(crossAxisRatio > 0 && crossAxisRatio <= 1);
 
   /// The ratio of the cross-axis to the main-axis extent of the tile.
   ///
@@ -44,13 +44,13 @@ class SliverWovenGridDelegate extends SliverPatternGridDelegate<WovenGridTile> {
     double mainAxisSpacing = 0,
     double crossAxisSpacing = 0,
     this.tileBottomSpace = 0,
-  })  : assert(pattern.length <= crossAxisCount),
-        super.count(
-          pattern: pattern,
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        );
+  }) : assert(pattern.length <= crossAxisCount),
+       super.count(
+         pattern: pattern,
+         crossAxisCount: crossAxisCount,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       );
 
   /// Creates a [SliverWovenGridDelegate].
   const SliverWovenGridDelegate.extent({
@@ -60,11 +60,11 @@ class SliverWovenGridDelegate extends SliverPatternGridDelegate<WovenGridTile> {
     double crossAxisSpacing = 0,
     this.tileBottomSpace = 0,
   }) : super.extent(
-          pattern: pattern,
-          maxCrossAxisExtent: maxCrossAxisExtent,
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        );
+         pattern: pattern,
+         maxCrossAxisExtent: maxCrossAxisExtent,
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       );
 
   /// {@macro fsgv.global.tileBottomSpace}
   final double tileBottomSpace;
@@ -78,15 +78,21 @@ class SliverWovenGridDelegate extends SliverPatternGridDelegate<WovenGridTile> {
     final usableCrossAxisExtent = isHorizontal
         ? constraints.crossAxisExtent - crossAxisCount * tileBottomSpace
         : constraints.crossAxisExtent;
-    final crossAxisExtent =
-        (usableCrossAxisExtent + crossAxisSpacing) / crossAxisCount -
-            crossAxisSpacing;
+    // The cell extent must never be negative, even when the cross axis
+    // extent is smaller than the total spacing (see upstream issue #362).
+    final crossAxisExtent = math.max(
+      0.0,
+      (usableCrossAxisExtent + crossAxisSpacing) / crossAxisCount -
+          crossAxisSpacing,
+    );
     final crossAxisStride = crossAxisExtent + crossAxisSpacing;
     final patternCount = pattern.length;
     // The minimum aspect ratio give us the main axis extent of a track.
-    final maxMainAxisExtentRatio =
-        pattern.map((t) => t.crossAxisRatio / t.aspectRatio).reduce(math.max);
-    final mainAxisExtent = crossAxisExtent * maxMainAxisExtentRatio +
+    final maxMainAxisExtentRatio = pattern
+        .map((t) => t.crossAxisRatio / t.aspectRatio)
+        .reduce(math.max);
+    final mainAxisExtent =
+        crossAxisExtent * maxMainAxisExtentRatio +
         (isHorizontal ? 0 : tileBottomSpace);
 
     // We always provide 2 tracks where the layout follow this pattern:
@@ -97,20 +103,25 @@ class SliverWovenGridDelegate extends SliverPatternGridDelegate<WovenGridTile> {
     final tiles = List.filled(count, kZeroGeometry);
     final bounds = List.filled(count, kZeroGeometry);
     for (int i = 0; i < count; i++) {
-      final startScrollOffset =
-          i < crossAxisCount ? 0.0 : mainAxisExtent + mainAxisSpacing;
+      final startScrollOffset = i < crossAxisCount
+          ? 0.0
+          : mainAxisExtent + mainAxisSpacing;
       final tilePatternIndex = i < crossAxisCount
           ? i % patternCount
           : (count - 1 - (i % crossAxisCount)) % patternCount;
       final tilePattern = pattern[tilePatternIndex];
-      final tileCrossAxisExtent = crossAxisExtent * tilePattern.crossAxisRatio +
+      final tileCrossAxisExtent =
+          crossAxisExtent * tilePattern.crossAxisRatio +
           (isHorizontal ? tileBottomSpace : 0);
-      final tileMainAxisExtent = tileCrossAxisExtent / tilePattern.aspectRatio +
+      final tileMainAxisExtent =
+          tileCrossAxisExtent / tilePattern.aspectRatio +
           (isHorizontal ? 0 : tileBottomSpace);
-      final effectiveTextDirection =
-          i < crossAxisCount ? TextDirection.ltr : TextDirection.rtl;
-      final effectiveAlignment =
-          tilePattern.alignment.resolve(effectiveTextDirection);
+      final effectiveTextDirection = i < crossAxisCount
+          ? TextDirection.ltr
+          : TextDirection.rtl;
+      final effectiveAlignment = tilePattern.alignment.resolve(
+        effectiveTextDirection,
+      );
       final rect = effectiveAlignment.inscribe(
         Size(tileCrossAxisExtent, tileMainAxisExtent),
         Rect.fromLTWH(0, 0, crossAxisExtent, mainAxisExtent),

@@ -36,15 +36,14 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
   /// than zero.
   RenderSliverMasonryGrid({
     required RenderSliverBoxChildManager childManager,
-    required SliverSimpleGridDelegate gridDelegate,
+    required this._gridDelegate,
     required double mainAxisSpacing,
     required double crossAxisSpacing,
-  })  : assert(mainAxisSpacing >= 0),
-        assert(crossAxisSpacing >= 0),
-        _gridDelegate = gridDelegate,
-        _mainAxisSpacing = mainAxisSpacing,
-        _crossAxisSpacing = crossAxisSpacing,
-        super(childManager: childManager);
+  }) : assert(mainAxisSpacing >= 0),
+       assert(crossAxisSpacing >= 0),
+       _mainAxisSpacing = mainAxisSpacing,
+       _crossAxisSpacing = crossAxisSpacing,
+       super(childManager: childManager);
 
   /// {@template fsgv.global.gridDelegate}
   /// The delegate that controls the size and position of the children.
@@ -183,9 +182,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
-    final crossAxisCount = _gridDelegate.getCrossAxisCount(
-      constraints,
-      crossAxisSpacing,
+    final crossAxisCount = math.max(
+      1,
+      _gridDelegate.getCrossAxisCount(constraints, crossAxisSpacing),
     );
 
     _getCrossAxisIndex = axisDirectionIsReversed(constraints.crossAxisDirection)
@@ -194,7 +193,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
     // The stride is the cross extent of a cell + crossAxisSpacing.
     _stride = (constraints.crossAxisExtent + crossAxisSpacing) / crossAxisCount;
-    final childCrossAxisExtent = _stride - crossAxisSpacing;
+    // The child extent must never be negative, even when the cross axis
+    // extent is smaller than the spacing (see upstream issue #362).
+    final childCrossAxisExtent = math.max(0.0, _stride - crossAxisSpacing);
     final childConstraints = constraints.asBoxConstraints(
       crossAxisExtent: childCrossAxisExtent,
     );
@@ -413,9 +414,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
           // We ran out of children before reaching the scroll offset.
           // We must inform our parent that this sliver cannot fulfill
           // its contract and that we need a scroll offset correction.
-          geometry = SliverGeometry(
-            scrollOffsetCorrection: -scrollOffset,
-          );
+          geometry = SliverGeometry(scrollOffsetCorrection: -scrollOffset);
           return;
         }
       }
@@ -519,8 +518,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       }
     }
 
-    bool foundFirstVisibleChild = scrollOffsets
-        .any((scrollOffset) => scrollOffset >= constraints.scrollOffset);
+    bool foundFirstVisibleChild = scrollOffsets.any(
+      (scrollOffset) => scrollOffset >= constraints.scrollOffset,
+    );
     _lastFirstVisibleChildIndex = indexOf(firstChild!);
 
     // Returns true if we advanced, false if we have no more children
@@ -566,8 +566,9 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
     }
 
     // Find the first child that ends after the scroll offset.
-    while (scrollOffsets
-        .every((offset) => offset - mainAxisSpacing < scrollOffset)) {
+    while (scrollOffsets.every(
+      (offset) => offset - mainAxisSpacing < scrollOffset,
+    )) {
       leadingGarbage += 1;
       if (!advance()) {
         assert(leadingGarbage == childCount);
@@ -576,10 +577,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
         collectGarbage(leadingGarbage - 1, 0);
         assert(firstChild == lastChild);
         final double extent = scrollOffsets.reduce(math.max) - mainAxisSpacing;
-        geometry = SliverGeometry(
-          scrollExtent: extent,
-          maxPaintExtent: extent,
-        );
+        geometry = SliverGeometry(scrollExtent: extent, maxPaintExtent: extent);
         return;
       }
     }
@@ -620,9 +618,7 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
         leadingScrollOffset: leadingScrollOffset,
         trailingScrollOffset: endScrollOffset,
       );
-      assert(
-        estimatedMaxScrollOffset >= endScrollOffset - leadingScrollOffset,
-      );
+      assert(estimatedMaxScrollOffset >= endScrollOffset - leadingScrollOffset);
     }
     final double paintExtent = calculatePaintOffset(
       constraints,
@@ -642,7 +638,8 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
       cacheExtent: cacheExtent,
       maxPaintExtent: estimatedMaxScrollOffset,
       // Conservative to avoid flickering away the clip during scroll.
-      hasVisualOverflow: endScrollOffset > targetEndScrollOffsetForPaint ||
+      hasVisualOverflow:
+          endScrollOffset > targetEndScrollOffsetForPaint ||
           constraints.scrollOffset > 0.0,
     );
 
