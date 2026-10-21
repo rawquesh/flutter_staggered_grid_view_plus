@@ -22,8 +22,9 @@ void main() {
     );
   });
 
-  testWidgets('Should  only layout the number of requested items',
-      (WidgetTester tester) async {
+  testWidgets('Should  only layout the number of requested items', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
@@ -31,10 +32,7 @@ void main() {
           dragStartBehavior: DragStartBehavior.down,
           crossAxisCount: 4,
           itemBuilder: (contex, index) {
-            return Tile(
-              index: index,
-              height: 100,
-            );
+            return Tile(index: index, height: 100);
           },
           itemCount: 4,
         ),
@@ -51,10 +49,7 @@ void main() {
           dragStartBehavior: DragStartBehavior.down,
           crossAxisCount: 4,
           itemBuilder: (contex, index) {
-            return Tile(
-              index: index,
-              height: 100,
-            );
+            return Tile(index: index, height: 100);
           },
           itemCount: 5,
         ),
@@ -66,8 +61,9 @@ void main() {
     expect(find.text('5'), findsNothing);
   });
 
-  testWidgets('AlignedGridView.count control test',
-      (WidgetTester tester) async {
+  testWidgets('AlignedGridView.count control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     final itemCount = 12;
 
@@ -79,10 +75,7 @@ void main() {
           dragStartBehavior: DragStartBehavior.down,
           crossAxisCount: 4,
           itemBuilder: (context, index) {
-            return Tile(
-              index: index,
-              height: ((index % 5) + 1) * 100,
-            );
+            return Tile(index: index, height: ((index % 5) + 1) * 100);
           },
           itemCount: itemCount,
         ),
@@ -116,8 +109,9 @@ void main() {
     _expectTopLeft(7, const Offset(600, 400));
   });
 
-  testWidgets('AlignedGridView.extent control test',
-      (WidgetTester tester) async {
+  testWidgets('AlignedGridView.extent control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     final itemCount = 12;
 
@@ -129,10 +123,7 @@ void main() {
           dragStartBehavior: DragStartBehavior.down,
           maxCrossAxisExtent: 200,
           itemBuilder: (context, index) {
-            return Tile(
-              index: index,
-              height: ((index % 5) + 1) * 100,
-            );
+            return Tile(index: index, height: ((index % 5) + 1) * 100);
           },
           itemCount: itemCount,
         ),

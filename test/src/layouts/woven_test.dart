@@ -65,8 +65,9 @@ void main() {
     _expectTopLeft(3, const Offset(s1 + 8, s3 + 8 + (s3 - s1) / 2));
   });
 
-  testWidgets('Woven layout should follow an opposite flow',
-      (WidgetTester tester) async {
+  testWidgets('Woven layout should follow an opposite flow', (
+    WidgetTester tester,
+  ) async {
     await binding.setSurfaceSize(const Size(412, 800));
     await tester.pumpWidget(
       Directionality(
@@ -78,14 +79,8 @@ void main() {
             crossAxisSpacing: 4,
             pattern: const [
               WovenGridTile(1),
-              WovenGridTile(
-                6 / 10,
-                crossAxisRatio: 0.9,
-              ),
-              WovenGridTile(
-                3 / 4,
-                crossAxisRatio: 0.9,
-              ),
+              WovenGridTile(6 / 10, crossAxisRatio: 0.9),
+              WovenGridTile(3 / 4, crossAxisRatio: 0.9),
             ],
           ),
           childrenDelegate: SliverChildBuilderDelegate(

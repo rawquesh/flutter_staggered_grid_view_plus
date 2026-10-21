@@ -12,24 +12,20 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Staggered Grid View Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +76,11 @@ class HomePage extends StatelessWidget {
 
 class MenuEntry extends StatelessWidget {
   const MenuEntry({
-    Key? key,
+    super.key,
     required this.title,
     required this.imageName,
     required this.destination,
-  }) : super(key: key);
+  });
 
   final String title;
   final Widget destination;
@@ -98,17 +94,12 @@ class MenuEntry extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute<void>(
-              builder: (context) => destination,
-            ),
+            MaterialPageRoute<void>(builder: (context) => destination),
           );
         },
         child: Stack(
           children: [
-            Image.asset(
-              'assets/$imageName.png',
-              fit: BoxFit.fill,
-            ),
+            Image.asset('assets/$imageName.png', fit: BoxFit.fill),
             Positioned.fill(
               child: FractionallySizedBox(
                 heightFactor: 0.25,
@@ -120,9 +111,7 @@ class MenuEntry extends StatelessWidget {
                       title,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
+                      style: Theme.of(context).textTheme.titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                   ),

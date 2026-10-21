@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class WovenPage extends StatelessWidget {
-  const WovenPage({
-    Key? key,
-  }) : super(key: key);
+  const WovenPage({super.key});
 
   static const pattern = [
     WovenGridTile(1),
@@ -27,16 +25,14 @@ class WovenPage extends StatelessWidget {
           crossAxisSpacing: 8,
           pattern: pattern,
         ),
-        childrenDelegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final tile = pattern[index % pattern.length];
-            return ImageTile(
-              index: index,
-              width: (200 * tile.aspectRatio).ceil(),
-              height: 200,
-            );
-          },
-        ),
+        childrenDelegate: SliverChildBuilderDelegate((context, index) {
+          final tile = pattern[index % pattern.length];
+          return ImageTile(
+            index: index,
+            width: (200 * tile.aspectRatio).ceil(),
+            height: 200,
+          );
+        }),
       ),
     );
   }

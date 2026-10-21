@@ -10,10 +10,10 @@ class StaggeredGridTile extends ParentDataWidget<StaggeredGridParentData> {
     required this.mainAxisCellCount,
     required this.mainAxisExtent,
     required Widget child,
-  })  : assert(crossAxisCellCount > 0),
-        assert(mainAxisCellCount == null || mainAxisCellCount > 0),
-        assert(mainAxisExtent == null || mainAxisExtent > 0),
-        super(key: key, child: child);
+  }) : assert(crossAxisCellCount > 0),
+       assert(mainAxisCellCount == null || mainAxisCellCount > 0),
+       assert(mainAxisExtent == null || mainAxisExtent > 0),
+       super(key: key, child: child);
 
   /// Creates a [StaggeredGrid]'s tile that takes a fixed number of cells along
   /// the main axis.
@@ -23,12 +23,12 @@ class StaggeredGridTile extends ParentDataWidget<StaggeredGridParentData> {
     required num mainAxisCellCount,
     required Widget child,
   }) : this._(
-          key: key,
-          crossAxisCellCount: crossAxisCellCount,
-          mainAxisCellCount: mainAxisCellCount,
-          mainAxisExtent: null,
-          child: child,
-        );
+         key: key,
+         crossAxisCellCount: crossAxisCellCount,
+         mainAxisCellCount: mainAxisCellCount,
+         mainAxisExtent: null,
+         child: child,
+       );
 
   /// Creates a [StaggeredGrid]'s tile that takes a specific amount of space
   /// along the main axis.
@@ -38,12 +38,12 @@ class StaggeredGridTile extends ParentDataWidget<StaggeredGridParentData> {
     required double mainAxisExtent,
     required Widget child,
   }) : this._(
-          key: key,
-          crossAxisCellCount: crossAxisCellCount,
-          mainAxisCellCount: null,
-          mainAxisExtent: mainAxisExtent,
-          child: child,
-        );
+         key: key,
+         crossAxisCellCount: crossAxisCellCount,
+         mainAxisCellCount: null,
+         mainAxisExtent: mainAxisExtent,
+         child: child,
+       );
 
   /// Creates a [StaggeredGrid]'s tile that fits its main axis extent to its
   /// [child]'s content
@@ -52,12 +52,12 @@ class StaggeredGridTile extends ParentDataWidget<StaggeredGridParentData> {
     required int crossAxisCellCount,
     required Widget child,
   }) : this._(
-          key: key,
-          crossAxisCellCount: crossAxisCellCount,
-          mainAxisCellCount: null,
-          mainAxisExtent: null,
-          child: child,
-        );
+         key: key,
+         crossAxisCellCount: crossAxisCellCount,
+         mainAxisCellCount: null,
+         mainAxisExtent: null,
+         child: child,
+       );
 
   /// The number of cells that this tile takes along the cross axis.
   final int crossAxisCellCount;

@@ -6,9 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class MasonryPage extends StatefulWidget {
-  const MasonryPage({
-    Key? key,
-  }) : super(key: key);
+  const MasonryPage({super.key});
 
   @override
   State<MasonryPage> createState() => _MasonryPageState();
@@ -35,11 +33,7 @@ class _MasonryPageState extends State<MasonryPage> {
         crossAxisSpacing: 4,
         itemBuilder: (context, index) {
           final height = extents[index] * 100;
-          return ImageTile(
-            index: index,
-            width: 100,
-            height: height,
-          );
+          return ImageTile(index: index, width: 100, height: height);
         },
         itemCount: extents.length,
       ),

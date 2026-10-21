@@ -12,9 +12,7 @@ void main() {
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
-        child: StaggeredGrid.count(
-          crossAxisCount: 4,
-        ),
+        child: StaggeredGrid.count(crossAxisCount: 4),
       ),
     );
   });

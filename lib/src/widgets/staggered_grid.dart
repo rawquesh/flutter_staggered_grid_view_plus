@@ -15,9 +15,9 @@ class StaggeredGrid extends MultiChildRenderObjectWidget {
     this.crossAxisSpacing = 0,
     this.axisDirection,
     List<Widget> children = const <Widget>[],
-  })  : assert(mainAxisSpacing >= 0),
-        assert(crossAxisSpacing >= 0),
-        super(key: key, children: children);
+  }) : assert(mainAxisSpacing >= 0),
+       assert(crossAxisSpacing >= 0),
+       super(key: key, children: children);
 
   /// Creates a [StaggeredGrid] using a custom
   /// [StaggeredGridDelegateWithFixedCrossAxisCount] as [delegate].
@@ -31,15 +31,15 @@ class StaggeredGrid extends MultiChildRenderObjectWidget {
     AxisDirection? axisDirection,
     List<Widget> children = const <Widget>[],
   }) : this.custom(
-          key: key,
-          delegate: StaggeredGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          axisDirection: axisDirection,
-          children: children,
-        );
+         key: key,
+         delegate: StaggeredGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount: crossAxisCount,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         axisDirection: axisDirection,
+         children: children,
+       );
 
   /// Creates a [StaggeredGrid] using a custom
   /// [StaggeredGridDelegateWithMaxCrossAxisExtent] as [delegate].
@@ -53,15 +53,15 @@ class StaggeredGrid extends MultiChildRenderObjectWidget {
     AxisDirection? axisDirection,
     List<Widget> children = const <Widget>[],
   }) : this.custom(
-          key: key,
-          delegate: StaggeredGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: maxCrossAxisExtent,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-          axisDirection: axisDirection,
-          children: children,
-        );
+         key: key,
+         delegate: StaggeredGridDelegateWithMaxCrossAxisExtent(
+           maxCrossAxisExtent: maxCrossAxisExtent,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+         axisDirection: axisDirection,
+         children: children,
+       );
 
   /// The delegate that controls the layout of the children.
   final StaggeredGridDelegate delegate;
@@ -81,7 +81,8 @@ class StaggeredGrid extends MultiChildRenderObjectWidget {
       delegate: delegate,
       mainAxisSpacing: mainAxisSpacing,
       crossAxisSpacing: crossAxisSpacing,
-      axisDirection: axisDirection ??
+      axisDirection:
+          axisDirection ??
           Scrollable.maybeOf(context)?.axisDirection ??
           AxisDirection.down,
       textDirection: Directionality.of(context),
@@ -97,7 +98,8 @@ class StaggeredGrid extends MultiChildRenderObjectWidget {
       ..delegate = delegate
       ..mainAxisSpacing = mainAxisSpacing
       ..crossAxisSpacing = crossAxisSpacing
-      ..axisDirection = axisDirection ??
+      ..axisDirection =
+          axisDirection ??
           Scrollable.maybeOf(context)?.axisDirection ??
           AxisDirection.down
       ..textDirection = Directionality.of(context);

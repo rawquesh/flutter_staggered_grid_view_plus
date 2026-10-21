@@ -62,8 +62,9 @@ void main() {
     _expectTopLeft(7, const Offset(s2 + 4, s3 + 4));
   });
 
-  testWidgets('Quilted Grid inverted control test',
-      (WidgetTester tester) async {
+  testWidgets('Quilted Grid inverted control test', (
+    WidgetTester tester,
+  ) async {
     await binding.setSurfaceSize(const Size(800, 800));
     await tester.pumpWidget(
       Directionality(
@@ -118,8 +119,9 @@ void main() {
     _expectTopLeft(7, const Offset(s1 + 4, s3 + 4));
   });
 
-  testWidgets('Quilted Grid mirrored control test',
-      (WidgetTester tester) async {
+  testWidgets('Quilted Grid mirrored control test', (
+    WidgetTester tester,
+  ) async {
     await binding.setSurfaceSize(const Size(800, 800));
     await tester.pumpWidget(
       Directionality(
@@ -174,8 +176,9 @@ void main() {
     _expectTopLeft(7, const Offset(s3 + 4, s3 + 4));
   });
 
-  testWidgets('Quilted Grid different pattern control test',
-      (WidgetTester tester) async {
+  testWidgets('Quilted Grid different pattern control test', (
+    WidgetTester tester,
+  ) async {
     await binding.setSurfaceSize(const Size(200, 268));
     await tester.pumpWidget(
       Directionality(

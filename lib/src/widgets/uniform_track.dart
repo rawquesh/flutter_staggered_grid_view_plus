@@ -10,10 +10,10 @@ class UniformTrack extends MultiChildRenderObjectWidget {
     this.spacing = 0,
     required this.direction,
     required List<Widget> children,
-  })  : assert(spacing >= 0),
-        assert(division > 0),
-        assert(children.length <= division),
-        super(key: key, children: children);
+  }) : assert(spacing >= 0),
+       assert(division > 0),
+       assert(children.length <= division),
+       super(key: key, children: children);
 
   final double spacing;
   final int division;

@@ -6,8 +6,9 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../common.dart';
 
 void main() {
-  testWidgets('StaggeredGridTile.extent control test',
-      (WidgetTester tester) async {
+  testWidgets('StaggeredGridTile.extent control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     await tester.pumpWidget(
       Directionality(
@@ -72,8 +73,9 @@ void main() {
     _expectTopLeft(4, const Offset(0, 208));
   });
 
-  testWidgets('StaggeredGridTile.fit control test',
-      (WidgetTester tester) async {
+  testWidgets('StaggeredGridTile.fit control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     await tester.pumpWidget(
       Directionality(
@@ -85,38 +87,23 @@ void main() {
           children: const [
             StaggeredGridTile.fit(
               crossAxisCellCount: 2,
-              child: SizedBox(
-                height: 200,
-                child: Tile(index: 0),
-              ),
+              child: SizedBox(height: 200, child: Tile(index: 0)),
             ),
             StaggeredGridTile.fit(
               crossAxisCellCount: 2,
-              child: SizedBox(
-                height: 100,
-                child: Tile(index: 1),
-              ),
+              child: SizedBox(height: 100, child: Tile(index: 1)),
             ),
             StaggeredGridTile.fit(
               crossAxisCellCount: 1,
-              child: SizedBox(
-                height: 100,
-                child: Tile(index: 2),
-              ),
+              child: SizedBox(height: 100, child: Tile(index: 2)),
             ),
             StaggeredGridTile.fit(
               crossAxisCellCount: 1,
-              child: SizedBox(
-                height: 100,
-                child: Tile(index: 3),
-              ),
+              child: SizedBox(height: 100, child: Tile(index: 3)),
             ),
             StaggeredGridTile.fit(
               crossAxisCellCount: 4,
-              child: SizedBox(
-                height: 200,
-                child: Tile(index: 4),
-              ),
+              child: SizedBox(height: 200, child: Tile(index: 4)),
             ),
           ],
         ),

@@ -4,9 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class MasonryPage extends StatelessWidget {
-  const MasonryPage({
-    Key? key,
-  }) : super(key: key);
+  const MasonryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +15,7 @@ class MasonryPage extends StatelessWidget {
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         itemBuilder: (context, index) {
-          return Tile(
-            index: index,
-            extent: (index % 5 + 1) * 100,
-          );
+          return Tile(index: index, extent: (index % 5 + 1) * 100);
         },
       ),
     );

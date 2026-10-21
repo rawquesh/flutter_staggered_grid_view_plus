@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class QuiltedPage extends StatelessWidget {
-  const QuiltedPage({
-    Key? key,
-  }) : super(key: key);
+  const QuiltedPage({super.key});
 
   static const pattern = [
     QuiltedGridTile(2, 2),
@@ -26,16 +24,14 @@ class QuiltedPage extends StatelessWidget {
           repeatPattern: QuiltedGridRepeatPattern.inverted,
           pattern: pattern,
         ),
-        childrenDelegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final tile = pattern[index % pattern.length];
-            return ImageTile(
-              index: index,
-              width: tile.crossAxisCount * 100,
-              height: tile.mainAxisCount * 100,
-            );
-          },
-        ),
+        childrenDelegate: SliverChildBuilderDelegate((context, index) {
+          final tile = pattern[index % pattern.length];
+          return ImageTile(
+            index: index,
+            width: tile.crossAxisCount * 100,
+            height: tile.mainAxisCount * 100,
+          );
+        }),
       ),
     );
   }

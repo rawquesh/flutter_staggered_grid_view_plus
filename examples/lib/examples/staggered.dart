@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class StaggeredPage extends StatelessWidget {
-  const StaggeredPage({
-    Key? key,
-  }) : super(key: key);
+  const StaggeredPage({super.key});
 
   @override
   Widget build(BuildContext context) {

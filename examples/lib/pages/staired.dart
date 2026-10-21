@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class StairedPage extends StatelessWidget {
-  const StairedPage({
-    Key? key,
-  }) : super(key: key);
+  const StairedPage({super.key});
 
   static const pattern = [
     StairedGridTile(0.5, 1),
@@ -27,16 +25,14 @@ class StairedPage extends StatelessWidget {
             startCrossAxisDirectionReversed: true,
             pattern: pattern,
           ),
-          childrenDelegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final tile = pattern[index % pattern.length];
-              return ImageTile(
-                index: index,
-                width: (tile.aspectRatio * 200).ceil(),
-                height: 200,
-              );
-            },
-          ),
+          childrenDelegate: SliverChildBuilderDelegate((context, index) {
+            final tile = pattern[index % pattern.length];
+            return ImageTile(
+              index: index,
+              width: (tile.aspectRatio * 200).ceil(),
+              height: 200,
+            );
+          }),
         ),
       ),
     );

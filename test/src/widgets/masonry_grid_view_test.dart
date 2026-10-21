@@ -22,8 +22,9 @@ void main() {
     );
   });
 
-  testWidgets('MasonryGridView.count control test',
-      (WidgetTester tester) async {
+  testWidgets('MasonryGridView.count control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     final List<String> log = <String>[];
     final itemCount = 12;
@@ -69,8 +70,9 @@ void main() {
     expect(find.text('4'), findsNothing);
   });
 
-  testWidgets('MasonryGridView.extent control test',
-      (WidgetTester tester) async {
+  testWidgets('MasonryGridView.extent control test', (
+    WidgetTester tester,
+  ) async {
     // Screen size is 800x600 in the test environment.
     final List<String> log = <String>[];
     final itemCount = 12;

@@ -6,9 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view_plus/flutter_staggered_grid_view.dart';
 
 class AlignedPage extends StatefulWidget {
-  const AlignedPage({
-    Key? key,
-  }) : super(key: key);
+  const AlignedPage({super.key});
 
   @override
   State<AlignedPage> createState() => _AlignedPageState();
@@ -35,11 +33,7 @@ class _AlignedPageState extends State<AlignedPage> {
         crossAxisSpacing: 4,
         itemBuilder: (context, index) {
           final height = extents[index] * 40;
-          return ImageTile(
-            index: index,
-            width: 100,
-            height: height,
-          );
+          return ImageTile(index: index, width: 100, height: height);
         },
         itemCount: extents.length,
       ),

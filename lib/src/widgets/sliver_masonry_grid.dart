@@ -23,9 +23,9 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
     required this.gridDelegate,
     this.mainAxisSpacing = 0,
     this.crossAxisSpacing = 0,
-  })  : assert(mainAxisSpacing >= 0),
-        assert(crossAxisSpacing >= 0),
-        super(key: key, delegate: delegate);
+  }) : assert(mainAxisSpacing >= 0),
+       assert(crossAxisSpacing >= 0),
+       super(key: key, delegate: delegate);
 
   /// Creates a sliver that places multiple box children in a Masonry
   /// arrangement with a fixed number of tiles in the cross axis.
@@ -43,17 +43,17 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
     double mainAxisSpacing = 0,
     double crossAxisSpacing = 0,
   }) : this(
-          key: key,
-          delegate: SliverChildBuilderDelegate(
-            itemBuilder,
-            childCount: childCount,
-          ),
-          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        );
+         key: key,
+         delegate: SliverChildBuilderDelegate(
+           itemBuilder,
+           childCount: childCount,
+         ),
+         gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount: crossAxisCount,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       );
 
   /// Creates a sliver that places multiple box children in a Masonry
   /// arrangement with tiles that each have a maximum cross-axis extent.
@@ -71,17 +71,17 @@ class SliverMasonryGrid extends SliverMultiBoxAdaptorWidget {
     double mainAxisSpacing = 0,
     double crossAxisSpacing = 0,
   }) : this(
-          key: key,
-          delegate: SliverChildBuilderDelegate(
-            itemBuilder,
-            childCount: childCount,
-          ),
-          gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: maxCrossAxisExtent,
-          ),
-          mainAxisSpacing: mainAxisSpacing,
-          crossAxisSpacing: crossAxisSpacing,
-        );
+         key: key,
+         delegate: SliverChildBuilderDelegate(
+           itemBuilder,
+           childCount: childCount,
+         ),
+         gridDelegate: SliverSimpleGridDelegateWithMaxCrossAxisExtent(
+           maxCrossAxisExtent: maxCrossAxisExtent,
+         ),
+         mainAxisSpacing: mainAxisSpacing,
+         crossAxisSpacing: crossAxisSpacing,
+       );
 
   /// {@macro fsgv.global.gridDelegate}
   final SliverSimpleGridDelegate gridDelegate;
