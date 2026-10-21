@@ -1,3 +1,27 @@
+## 1.0.0
+First release of `flutter_staggered_grid_view_plus`, a maintained fork of
+`flutter_staggered_grid_view` 0.7.0. The public API is unchanged: migration
+only requires changing the package name and the import line.
+
+### Changed
+* Raised the SDK constraints to Dart ^3.13.0 / Flutter >= 3.47.0 and updated
+  dependencies.
+* Fixed all `flutter analyze` issues.
+
+### Fixed
+Upstream issues from https://github.com/letsar/flutter_staggered_grid_view:
+* #362: layout crashed with negative BoxConstraints when the available extent
+  was smaller than the spacing (or zero). Tile extents are now clamped and
+  cross axis counts are never zero.
+* #361: patterned layouts (e.g. SliverStairedGridDelegate) could throw
+  "Infinity or NaN toInt" when converting a scroll offset with a degenerate
+  pattern extent.
+* #344: `StaggeredGridDelegate` and its two implementations were not exported,
+  which made `StaggeredGrid.custom` unusable from the public API.
+* #221: SliverQuiltedGridDelegate threw a RangeError for patterns such as
+  [1x1, 1x1, 2x2] with crossAxisCount 3, because a wide tile was placed
+  without checking that it fits in the remaining columns.
+
 ## 0.7.0
 ### Changed
 * Bump minimal Flutter version to 3.7.0
