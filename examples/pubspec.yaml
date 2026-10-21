@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  collection: ^1.18.0
   cupertino_icons: ^1.0.2
   flutter_lints: any
   flutter_staggered_grid_view_plus:

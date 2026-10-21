@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view_plus/src/rendering/sliver_simple_grid_delegate.dart';
 import 'package:flutter_staggered_grid_view_plus/src/widgets/sliver_aligned_grid.dart';
 
@@ -56,7 +57,7 @@ import 'package:flutter_staggered_grid_view_plus/src/widgets/sliver_aligned_grid
 class AlignedGridView extends BoxScrollView {
   /// Creates a scrollable, 2D array of widgets with both a custom
   /// [SliverSimpleGridDelegate].
-  const AlignedGridView.custom({
+  AlignedGridView.custom({
     Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -72,7 +73,12 @@ class AlignedGridView extends BoxScrollView {
     this.addRepaintBoundaries = true,
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
+    @Deprecated(
+      'Use scrollCacheExtent instead. '
+      'This feature was deprecated after v3.41.0-0.0.pre.',
+    )
     double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -88,7 +94,10 @@ class AlignedGridView extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent ??
+              (cacheExtent != null
+                  ? ScrollCacheExtent.pixels(cacheExtent)
+                  : null),
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
@@ -127,7 +136,12 @@ class AlignedGridView extends BoxScrollView {
     this.itemCount,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
+    @Deprecated(
+      'Use scrollCacheExtent instead. '
+      'This feature was deprecated after v3.41.0-0.0.pre.',
+    )
     double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -146,7 +160,10 @@ class AlignedGridView extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent ??
+              (cacheExtent != null
+                  ? ScrollCacheExtent.pixels(cacheExtent)
+                  : null),
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
@@ -185,7 +202,12 @@ class AlignedGridView extends BoxScrollView {
     this.itemCount,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
+    @Deprecated(
+      'Use scrollCacheExtent instead. '
+      'This feature was deprecated after v3.41.0-0.0.pre.',
+    )
     double? cacheExtent,
+    ScrollCacheExtent? scrollCacheExtent,
     int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
@@ -204,7 +226,10 @@ class AlignedGridView extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
-          cacheExtent: cacheExtent,
+          scrollCacheExtent: scrollCacheExtent ??
+              (cacheExtent != null
+                  ? ScrollCacheExtent.pixels(cacheExtent)
+                  : null),
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,

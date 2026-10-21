@@ -142,7 +142,7 @@ class _SliverPatternGridLayout extends SliverGridLayout {
 
     // We have to get the max scroll offset for the track where the tile with
     // index, childCount - 1, is.
-    // TODO(romain): Can be optimized.
+    // Note: Can be optimized.
     final maxIndex = (childCount - 1) % tileCount;
     final maxRemainingScrollOffset = tiles
         .take(maxIndex + 1)

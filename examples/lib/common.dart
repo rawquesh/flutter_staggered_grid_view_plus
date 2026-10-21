@@ -110,7 +110,7 @@ class InteractiveTile extends StatefulWidget {
   final double? bottomSpace;
 
   @override
-  _InteractiveTileState createState() => _InteractiveTileState();
+  State<InteractiveTile> createState() => _InteractiveTileState();
 }
 
 class _InteractiveTileState extends State<InteractiveTile> {
