@@ -21,6 +21,19 @@ Upstream issues from https://github.com/letsar/flutter_staggered_grid_view:
 * #221: SliverQuiltedGridDelegate threw a RangeError for patterns such as
   [1x1, 1x1, 2x2] with crossAxisCount 3, because a wide tile was placed
   without checking that it fits in the remaining columns.
+* #338 (and its duplicates #335, #299, #286, #265): scrolling was broken
+  with multiple SliverMasonryGrid sections in one CustomScrollView. When a
+  section had columns with no retained child yet, the leading-child search
+  treated the placeholder column offsets as real offsets and returned a
+  bogus scroll correction for the whole offset, so e.g. jumping to the end
+  of the list landed mid-list and the second section never appeared. The
+  search now only runs when it can actually fetch a leading child.
+  (Informed by upstream PR #277 by @JackyMR.)
+* #301: `itemBuilder` of MasonryGridView.builder/.count/.extent and
+  SliverMasonryGrid.count/.extent now accepts a nullable return value;
+  returning null signals the end of the list, like ListView.builder, when
+  no itemCount/childCount is given. (Ported from upstream PR #365 by
+  @angcyo.)
 
 ## 0.7.0
 ### Changed
