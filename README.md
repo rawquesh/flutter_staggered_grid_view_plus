@@ -299,20 +299,6 @@ AlignedGridView.count(
 );
 ```
 
-## Sponsoring
-
-I'm working on my packages on my free-time, but I don't have as much time as I would. If this package or any other package I created is helping you, please consider to sponsor me so that I can take time to read the issues, fix bugs, merge pull requests and add features to these packages.
-
-## Sponsors
-
-I want to thank [Tommy][first_sponsor] for sponsoring this package. Thanks to him, I took the time to investigate in the previous performance issues and refactor this library to make it how is it today.
-
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/Tom3652"><img src="https://avatars.githubusercontent.com/u/32631467?v=4" width="100px;" alt=""/><br /><sub><b>Tom3652</b></sub></a><br /></td>
-  </tr>
-</table>
-
 ## Contributions
 
 Feel free to contribute to this project.
@@ -332,7 +318,6 @@ If you fixed a bug or implemented a feature, please send a [pull request][pr].
 [issue]: https://github.com/letsar/flutter_staggered_grid_view/issues
 [pr]: https://github.com/letsar/flutter_staggered_grid_view/pulls
 [flutter_documentation]: https://docs.flutter.dev/
-[first_sponsor]: https://github.com/Tom3652
 [staggered_preview]: https://raw.githubusercontent.com/letsar/flutter_staggered_grid_view/master/docs/images/staggered.png
 [masonry_preview]: https://raw.githubusercontent.com/letsar/flutter_staggered_grid_view/master/docs/images/masonry.png
 [quilted_preview]: https://raw.githubusercontent.com/letsar/flutter_staggered_grid_view/master/docs/images/quilted.png
