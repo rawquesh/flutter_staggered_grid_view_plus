@@ -313,8 +313,6 @@ If you fixed a bug or implemented a feature, please send a [pull request][pr].
 [pub]: https://pub.dartlang.org/packages/flutter_staggered_grid_view
 [codecov]: https://codecov.io/gh/letsar/flutter_staggered_grid_view
 [codecov_badge]: https://codecov.io/gh/letsar/flutter_staggered_grid_view/branch/main/graph/badge.svg
-[buy_me_a_coffee]: https://www.buymeacoffee.com/romainrastel
-[buy_me_a_coffee_badge]: https://img.buymeacoffee.com/button-api/?text=Donate&emoji=&slug=romainrastel&button_colour=29b6f6&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00
 [issue]: https://github.com/letsar/flutter_staggered_grid_view/issues
 [pr]: https://github.com/letsar/flutter_staggered_grid_view/pulls
 [flutter_documentation]: https://docs.flutter.dev/
