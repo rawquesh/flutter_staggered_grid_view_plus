@@ -389,7 +389,40 @@ class RenderSliverMasonryGrid extends RenderSliverMultiBoxAdaptor {
 
     // Find the first child that is visible in the viewport.
     earliestUsefulChild = firstChild;
-    while (scrollOffsets.any((x) => x > scrollOffset)) {
+    // We need to walk back over leading children while a column's earliest
+    // known offset is beyond the scroll offset, or while a column has no
+    // known offset yet (its seed is still double.infinity) and earlier
+    // children could provide one. An infinite seed alone must not trigger
+    // this search when the first child is already the first item of the
+    // list: there is no leading child to fetch then, and the search would
+    // wrongly conclude that this sliver cannot satisfy the scroll offset
+    // and ask for a correction of the whole offset (see upstream issue
+    // #338, where this made the second of two SliverMasonryGrid sections
+    // unreachable when jumping to the end of the list).
+    bool needsLeadingChild() {
+      var hasUnseededColumn = false;
+      for (final offset in scrollOffsets) {
+        if (offset == double.infinity) {
+          hasUnseededColumn = true;
+        } else if (offset > scrollOffset) {
+          return true;
+        }
+      }
+      if (!hasUnseededColumn) {
+        return false;
+      }
+      if (indexOf(firstChild!) > 0) {
+        return true;
+      }
+      // The first child is already the first item of the list, so there is
+      // no leading child to fetch and the search can be skipped — unless
+      // the first child's own offset is unusable, in which case the search
+      // is needed to reset it.
+      final firstChildOffset = childScrollOffset(firstChild!);
+      return firstChildOffset == null || !firstChildOffset.isFinite;
+    }
+
+    while (needsLeadingChild()) {
       // We have to add children before the earliestUsefulChild.
       earliestUsefulChild = insertAndLayoutLeadingChild(
         childConstraints,
