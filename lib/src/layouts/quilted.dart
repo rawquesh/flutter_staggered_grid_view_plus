@@ -226,8 +226,9 @@ class _SliverQuiltedGridLayout extends SliverGridLayout {
     double crossAxisStart,
     double childCrossAxisExtent,
   ) {
-    if (reverseCrossAxis)
+    if (reverseCrossAxis) {
       return crossAxisExtent - crossAxisStart - childCrossAxisExtent;
+    }
     return crossAxisStart;
   }
 

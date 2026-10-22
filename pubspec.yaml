@@ -1,6 +1,6 @@
 name: flutter_staggered_grid_view_plus
-description: A maintained successor and migration of flutter_staggered_grid_view providing a collection of Flutter grid layouts (staggered, masonry, quilted, woven, etc.) for current Flutter versions.
-version: 1.0.1
+description: "A maintained successor of flutter_staggered_grid_view: staggered, masonry, quilted and woven grid layouts for current Flutter versions."
+version: 1.0.2
 homepage: https://github.com/rawquesh/flutter_staggered_grid_view_plus
 repository: https://github.com/rawquesh/flutter_staggered_grid_view_plus
 issue_tracker: https://github.com/rawquesh/flutter_staggered_grid_view_plus/issues

@@ -1,3 +1,10 @@
+## 1.0.2
+### Fixed
+* pub.dev score: shortened the package description to within the 60–180
+  character limit and wrapped all single-statement `if`s in braces
+  (`curly_braces_in_flow_control_structures`, now also enabled in
+  `analysis_options.yaml` so it stays clean). No behavior changes.
+
 ## 1.0.1
 ### Fixed
 * Upstream issue #338 (and its duplicates #335, #299, #286, #265): the
